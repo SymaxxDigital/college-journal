@@ -7,14 +7,14 @@ Home
 {% block content %}
 
     {% if user.is_authenticated %}
-        <h1 class="text-blue-500 text-4xl">Hi there {{ request.user.email }} </h1>
+        <h1 class="text-red-300 text-3xl">Hi there {{ request.user.username }} </h1>
         <br />
-        <a href="{% url "account_logout" %}">Logout</a>
+        <a href="{% url "account_logout" %}" class="bg-blue-500 px-20 py-20">Logout</a>
 
     {% else %}
     <h1>Hi there you are not logged in</h1>
     <br />
-    <a href="{% url "account_login" %}">Login</a>
+    <a href="{% url "account_login" %}" class="bg-blue-500 px-10 py-10">Login</a>
     {% endif %}
 
 {% endblock content %}
