@@ -21,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = "django-insecure-yvjs0isv8w^ip7l7l5#nrpg1bd*)#@6*lj73tk^yz7@b3f)&@0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -48,9 +48,12 @@ INSTALLED_APPS = [
 
     #Local
     'users.apps.UsersConfig',
+    'student_profile.apps.StudentProfileConfig',
     
 ]
 
+
+GOOGLE_API_KEY = "AIzaSyDq0fk5BLBwZQ4fOoi9_YgHYDbNX-XekD8"
 
 # django-allauth config
 SITE_ID = 1 
