@@ -2,34 +2,23 @@ from django.contrib import admin
 from .models import (
     PersonalInformation, 
     ContactDetail,
+    Address,
     Language,
     Demographic,
     Citizenship,
-    Household,
+    Family,
     Parent,
-    SecondParent,
     Sibling,
-    Address,
-    Address2,
+    Education,
     School,
-    OtherSchool,
-    SchoolDescription,
     FuturePlan,
     ActivityCheck,
     Activity,
     DisciplinaryHistory,
     PersonalEssay,
     AdditionalInformation,
+    
 )
-
-admin.site.register(Household)
-admin.site.register(FuturePlan)
-
-
-class CitizenshipInline(admin.StackedInline):
-    model = Citizenship
-    extra = 0
-    max_num = 1
 
 
 
@@ -39,11 +28,16 @@ class ContactDetailInline(admin.StackedInline):
     max_num = 3
 
 
+class AddressInline(admin.StackedInline):
+    model = Address
+    extra = 0
+    max_num = 1
+
+
 class PersonalInformationAdmin(admin.ModelAdmin):
     inlines = [
         ContactDetailInline,
     ]
-
 
     list_display = (
         "first_name", 
@@ -65,6 +59,12 @@ class LanguageInline(admin.StackedInline):
     max_num = 5
 
 
+class CitizenshipInline(admin.StackedInline):
+    model = Citizenship
+    extra = 0
+    max_num = 1
+
+
 class DemographicsAdmin(admin.ModelAdmin):
     inlines = [
         CitizenshipInline,
@@ -77,36 +77,19 @@ class DemographicsAdmin(admin.ModelAdmin):
 admin.site.register(Demographic, DemographicsAdmin)
 
 
-class AddressInline(admin.StackedInline):
-    model = Address2
-    extra = 0
-    max_num = 1
-
-
-class AddressAdmin(admin.ModelAdmin):
-    inlines = [
-        AddressInline,
-    ]
-
-
-    list_display = ('address', "postal_code", "city", "country",)
-
-admin.site.register(Address, AddressAdmin)
-
-
 class ParentInline(admin.StackedInline):
-    model = SecondParent
+    model = Parent
     extra = 0
-    max_num = 1
+    max_num = 5
 
 
 class SiblingInline(admin.StackedInline):
     model = Sibling
     extra = 0
-    max_num = 1
+    max_num = 10
 
 
-class ParentAdmin(admin.ModelAdmin):
+class FamilyAdmin(admin.ModelAdmin):
     inlines = [
         ParentInline,
         SiblingInline,
@@ -114,40 +97,32 @@ class ParentAdmin(admin.ModelAdmin):
 
 
     list_display = (
-        "parent_type", 
-        "parent_status",
-        "parent_prefix",
-        "first_name",
-        "middle_name",
-        "last_name",
-        "birth_country",
-        "preferred_email",
-        "preferred_phone",
-        "phone_number",
-        "parent_address",
-        "occupation",
-        "education_level",
-
+        "relationship_status", 
+        "living_situation",
+        "children",
+        "number_of_children",
+        
         )
 
-admin.site.register(Parent, ParentAdmin)
+admin.site.register(Family, FamilyAdmin)
 
 
 class SchoolInline(admin.StackedInline):
-    model = OtherSchool
+    model = School
     extra = 0
     max_num = 5
 
-class SchoolDescriptionInline(admin.StackedInline):
-    model = SchoolDescription
+
+class FuturePlanInline(admin.StackedInline):
+    model = FuturePlan
     extra = 0
     max_num = 1
 
 
-class SchoolAdmin(admin.ModelAdmin):
+class EducationAdmin(admin.ModelAdmin):
     inlines = [
         SchoolInline,
-        SchoolDescriptionInline
+        FuturePlanInline,
 
     ]
 
@@ -157,10 +132,11 @@ class SchoolAdmin(admin.ModelAdmin):
         'school_type', 
         'graduation_status', 
         'graduation_date', 
-        'progression_status'
+        'progression_status',
+        'description',
     )
 
-admin.site.register(School, SchoolAdmin)
+admin.site.register(Education, EducationAdmin)
 
 
 class ActivityInline(admin.StackedInline):
@@ -187,6 +163,7 @@ class DisciplinaryHistoryInline(admin.StackedInline):
     model = DisciplinaryHistory
     extra = 0
     max_num = 1
+
 
 class AdditionalInformationInline(admin.StackedInline):
     model = AdditionalInformation
