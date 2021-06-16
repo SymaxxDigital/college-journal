@@ -31,12 +31,13 @@ class ContactDetailInline(admin.StackedInline):
 class AddressInline(admin.StackedInline):
     model = Address
     extra = 0
-    max_num = 1
+    max_num = 2
 
 
 class PersonalInformationAdmin(admin.ModelAdmin):
     inlines = [
         ContactDetailInline,
+        AddressInline,
     ]
 
     list_display = (
