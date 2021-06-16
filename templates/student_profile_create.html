@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+{% endblock title %}
+
+{% block content %}
+
+<form action="" method="post">
+
+{% csrf_token %}
+
+{{form.as_p}}
+
+{{contact_formset.as_p}}
+
+{{address_formset.as_p}}
+
+<input type="submit" />
+</form>
+
+{% endblock content %}
