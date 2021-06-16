@@ -25,5 +25,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 
     # Local Apps
-    path("", include("users.urls"))
+    path("", include("users.urls")),
+    path("profile/", include('student_profile.urls', namespace='student_profile'))
+
 ]
