@@ -7,12 +7,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		{% tailwind_css %}
+
 	</head>
 
-	<body class="bg-grey-lightest font-serif leading-normal tracking-normal">
-	<div >
-		<p class="text-red-900">This will appear everywhere</p>	
-	</div>
+	<body class="bg-grey-400 font-serif leading-normal tracking-normal">
 		{% block content %}
 
 		
@@ -20,4 +18,5 @@
         
         {% endblock content %}
 	</body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.0/alpine.js"></script>
 </html>
