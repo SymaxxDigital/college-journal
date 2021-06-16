@@ -1,10 +1,11 @@
+import uuid
 from django.db import models
-from django.conf import settings 
+from django.conf import settings
+from django.urls import reverse
 
 
 
 """============================================Student==========================================="""
-
 
 class PersonalInformation(models.Model):
     """ Student basic Information """
@@ -13,6 +14,7 @@ class PersonalInformation(models.Model):
         ("Female", "Female"),
     )
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=100, blank=True, null=True)
     middle_name = models.CharField(max_length=100, blank=True, null=True)
@@ -25,6 +27,9 @@ class PersonalInformation(models.Model):
 
     def __str__(self):
         return self.first_name
+
+    def get_absolute_url(self): # new
+        return reverse('student_profile:profile_edit', kwargs={'pk': str(self.pk)})
 
     class Meta:
         verbose_name_plural = "Personal Information"
