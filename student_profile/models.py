@@ -85,7 +85,7 @@ class Demographic(models.Model):
     consent = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.religion} {self.race}"
+        return f"{self.religion}"
 
 
 class Language(models.Model):
