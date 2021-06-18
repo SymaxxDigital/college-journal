@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 django-tailwind = "*"
 django-allauth = "*"
+django-address-model = "*"
 
 [dev-packages]
 
