@@ -7,7 +7,7 @@ from .forms import ContactDetailFormSet, AddressFormSet
 class ProfileView(ListView):
     """This will list all the available profiles"""
     model = PersonalInformation
-    template_name = 'student_profile.html'
+    template_name = 'student_profile_list.html'
     context_object_name = 'profiles'
 
 
