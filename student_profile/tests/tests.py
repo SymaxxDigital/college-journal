@@ -2,7 +2,7 @@ from django.test import Client, TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
-from .models import (
+from student_profile.models import (
     PersonalInformation, 
     ContactDetail, 
     Address, 
@@ -189,7 +189,7 @@ class PersonalInformationTests(TestCase):
         response = self.client.get(reverse("student_profile:profile"))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "Maxx")
-        self.assertTemplateUsed(response, "student_profile_list.html")
+        self.assertTemplateUsed(response, "profile/student_profile_list.html")
 
 
     def test_contact_detail(self):
@@ -289,6 +289,7 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.activitycheck.user}", "studentuser")
         self.assertEqual(f"{self.activitycheck.activity_interest}", "True")
 
+
     def test_activity(self):
         self.assertEqual(f"{self.activity.related_field}", "True")
         self.assertEqual(f"{self.activity.activity_type}", "Art")
@@ -300,14 +301,17 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.activity.weeks_per_year}", "20")
         self.assertEqual(f"{self.activity.participation_time}", "2hrs")
 
+
     def test_personal_essay(self):
         self.assertEqual(f"{self.personalessay.user}", "studentuser")
         self.assertEqual(f"{self.personalessay.consent}", "True")
         self.assertEqual(f"{self.personalessay.essay}", "This text is supposed to be here")
 
+
     def test_disciplinary_history(self):
         self.assertEqual(f"{self.discipline.related_field}", "True")
         self.assertEqual(f"{self.discipline.disciplinary}", "Yes")
+
 
     def test_additional_information(self):
         self.assertEqual(f"{self.additionalinformation.related_field}", "True")
