@@ -78,6 +78,7 @@ class Demographic(models.Model):
         ("Asian", "Asian"),
     )
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     religion = models.CharField(
         max_length=30, blank=True, null=True, choices=RELIGION)
@@ -86,6 +87,9 @@ class Demographic(models.Model):
 
     def __str__(self):
         return f"{self.religion}"
+
+    def get_absolute_url(self): # new
+        return reverse('student_profile:demographic_update', kwargs={'pk': str(self.pk)})
 
 
 class Language(models.Model):
@@ -139,6 +143,7 @@ class Family(models.Model):
         ("Parent2", "Parent2"),
     )
 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     relationship_status = models.CharField(
         max_length=20, blank=True, null=True, choices=RELATIONSHIP_STATUS)
@@ -219,6 +224,7 @@ class Sibling(models.Model):
 
 
 class Education(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     school_name = models.CharField(max_length=200, blank=True, null=True)
     date_of_entry = models.DateField()
@@ -257,6 +263,7 @@ class FuturePlan(models.Model):
 """=======================================Activity======================================"""
 
 class ActivityCheck(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     activity_interest = models.BooleanField(default=True, blank=True, null=True)
 
@@ -292,6 +299,7 @@ class Activity(models.Model):
 """=======================================Writing======================================"""
 
 class PersonalEssay(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     consent = models.BooleanField(default=False)
     essay = models.TextField(max_length=800)
