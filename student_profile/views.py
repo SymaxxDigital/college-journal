@@ -291,8 +291,8 @@ class EducationUpdateView(UpdateView):
             context["school_formset"] = SchoolFormSet(self.request.POST, instance=self.object)
             context["futureplan_formset"] = FuturePlanFormSet(self.request.POST, instance=self.object)
         else:
-            context["school_formset"] = ParentFormSet(instance=self.object)
-            context["futureplan_formset"] = SiblingFormSet(instance=self.object)
+            context["school_formset"] = SchoolFormSet(instance=self.object)
+            context["futureplan_formset"] = FuturePlanFormSet(instance=self.object)
         return context
 
 
@@ -352,7 +352,7 @@ class ActivityUpdateView(UpdateView):
 
 
     def get_context_data(self, **kwargs):
-        context = super(EducationUpdateView, self).get_context_data(**kwargs)
+        context = super(ActivityUpdateView, self).get_context_data(**kwargs)
 
         if self.request.POST:
             context["activity_formset"] = ActivityFormSet(self.request.POST, instance=self.object)

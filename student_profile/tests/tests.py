@@ -158,7 +158,7 @@ class PersonalInformationTests(TestCase):
         self.personalessay = PersonalEssay.objects.create(
             user = self.user,
             consent = True, 
-            essay = "This text is supposed to be here",
+            essay = "Personal Essay is supposed to be here",
         )
 
         self.discipline = DisciplinaryHistory.objects.create(
@@ -309,6 +309,19 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.education.description}", "This text has to be here")
 
 
+    def test_education_create_view(self):
+        response = self.client.get(reverse('student_profile:education_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/education_create_view.html")
+
+
+    def test_education_update_view(self):
+        response = self.client.get(self.education.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Premier')
+        self.assertTemplateUsed(response, "profile/education_update_view.html")
+
+
     def test_school_(self):
         self.assertEqual(f"{self.school.related_school}", "Premier")
         self.assertEqual(f"{self.school.school_name}", "Green Gables")
@@ -329,6 +342,19 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.activitycheck.activity_interest}", "True")
 
 
+    def test_activity_create_view(self):
+        response = self.client.get(reverse('student_profile:activity_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/activity_create.html")
+
+
+    def test_activity_update_view(self):
+        response = self.client.get(self.activitycheck.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'studentuser')
+        self.assertTemplateUsed(response, "profile/activity_update.html")
+
+
     def test_activity(self):
         self.assertEqual(f"{self.activity.related_field}", "True")
         self.assertEqual(f"{self.activity.activity_type}", "Art")
@@ -344,7 +370,20 @@ class PersonalInformationTests(TestCase):
     def test_personal_essay(self):
         self.assertEqual(f"{self.personalessay.user}", "studentuser")
         self.assertEqual(f"{self.personalessay.consent}", "True")
-        self.assertEqual(f"{self.personalessay.essay}", "This text is supposed to be here")
+        self.assertEqual(f"{self.personalessay.essay}", "Personal Essay is supposed to be here")
+
+
+    def test_personal_essay_create_view(self):
+        response = self.client.get(reverse('student_profile:personal_essay_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/personal_essay_create.html")
+
+
+    def test_personal_essay_update_view(self):
+        response = self.client.get(self.personalessay.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Personal Essay is supposed to be here")
+        self.assertTemplateUsed(response, "profile/personal_essay_update.html")
 
 
     def test_disciplinary_history(self):
