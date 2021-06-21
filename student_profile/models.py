@@ -29,7 +29,7 @@ class PersonalInformation(models.Model):
         return self.first_name
 
     def get_absolute_url(self): # new
-        return reverse('student_profile:profile_edit', kwargs={'pk': str(self.pk)})
+        return reverse('student_profile:profile_update', kwargs={'pk': str(self.pk)})
 
     class Meta:
         verbose_name_plural = "Personal Information"
@@ -155,6 +155,8 @@ class Family(models.Model):
     def __str__(self):
         return f"{self.relationship_status}"
 
+    def get_absolute_url(self): # new
+        return reverse('student_profile:family_update', kwargs={'pk': str(self.pk)})
 
     class Meta:
         verbose_name_plural = "Family"
@@ -241,6 +243,8 @@ class Education(models.Model):
     class Meta:
         verbose_name_plural = "Education"
 
+    def get_absolute_url(self): # new
+        return reverse('student_profile:education_update', kwargs={'pk': str(self.pk)})
 
 class School(models.Model):
     related_school = models.ForeignKey(Education, on_delete=models.CASCADE)
@@ -270,7 +274,9 @@ class ActivityCheck(models.Model):
     def __str__(self):
         return f"{self.activity_interest}"
 
-    
+    def get_absolute_url(self): # new
+        return reverse('student_profile:activity_update', kwargs={'pk': str(self.pk)})
+
 class Activity(models.Model):
     ACTIVITIES = (
         ('Art', 'Art'),
@@ -307,9 +313,11 @@ class PersonalEssay(models.Model):
     def __str__(self):
         return f"{self.consent}"
 
-
     class Meta:
         verbose_name_plural = "Personal Essay"
+
+    def get_absolute_url(self): # new
+        return reverse('student_profile:personal_essay_update', kwargs={'pk': str(self.pk)})
 
 
 class DisciplinaryHistory(models.Model):
@@ -334,3 +342,5 @@ class AdditionalInformation(models.Model):
 
     def __str__(self):
         return f"Disruptions {self.any_disruptions}"
+
+    
