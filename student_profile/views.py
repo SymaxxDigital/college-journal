@@ -132,12 +132,12 @@ class DemographicUpdateView(UpdateView):
 
     """This will be used to create student demographics"""
     model = Demographic
-    template_name = "profile/demographic_create.html"
+    template_name = "profile/demographic_update.html"
     success_url = reverse_lazy("student_profile:profile")
     fields = "__all__"
 
     def get_context_data(self, **kwargs):
-        context = super(DemographicCreateView, self).get_context_data(**kwargs)
+        context = super(DemographicUpdateView, self).get_context_data(**kwargs)
 
         if self.request.POST:
             context["language_formset"] = LanguageFormSet(self.request.POST, instance=self.object)
