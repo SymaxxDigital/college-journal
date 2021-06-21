@@ -192,6 +192,19 @@ class PersonalInformationTests(TestCase):
         self.assertTemplateUsed(response, "profile/student_profile_list.html")
 
 
+    def test_profile_create_view(self):
+        response = self.client.get(reverse('student_profile:profile_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/student_profile_create.html")
+
+
+    def test_profile_update_view(self):
+        response = self.client.get(self.profile.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Maxx')
+        self.assertTemplateUsed(response, "profile/student_profile_update.html")
+
+
     def test_contact_detail(self):
         self.assertEqual(f"{self.contact.related_field}", "Maxx")
         self.assertEqual(f"{self.contact.phone_option}", "Home")
