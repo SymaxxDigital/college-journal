@@ -29,7 +29,6 @@ class ProfileCreateView(CreateView):
     template_name = "profile/student_profile_create.html"
     success_url = reverse_lazy('student_profile:profile')
     fields = "__all__"
-    #fields = ("first_name", "middle_name", "last_name", "nickname", "other_name", "sex", "other_gender", "date_of_birth", )
 
 
     def get_context_data(self, **kwargs):
