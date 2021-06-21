@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block title %}
-Demographics
+Education
 {% endblock title %}
 
 {% block content %}
 
-<h1>This is the Demographics page</h1>
+<h1>This is the Education page</h1>
 
 <form action="" method="post">
 
@@ -14,9 +14,9 @@ Demographics
 
     {{form.as_p}}
 
-    {{language_formset.as_p}}
+    {{school_formset.as_p}}
 
-    {{citizenship_formset.as_p}}
+    {{futureplan_formset.as_p}}
 
     <input type="submit" />
 </form>
