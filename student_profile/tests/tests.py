@@ -226,6 +226,19 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.demographics.consent}", "True")
 
 
+    def test_demographics_create_view(self):
+        response = self.client.get(reverse('student_profile:demographic_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/demographic_create.html")
+
+
+    def test_demographics_update_view(self):
+        response = self.client.get(self.demographics.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Black')
+        self.assertTemplateUsed(response, "profile/demographic_update.html")
+
+
     def test_language(self):
         self.assertEqual(f"{self.language.related_field}", "Christianity")
         self.assertEqual(f"{self.language.language}", "English")
@@ -243,6 +256,19 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.family.living_situation}", "With both parents")
         self.assertEqual(f"{self.family.children}", "False")
         self.assertEqual(f"{self.family.number_of_children}", "3")
+
+
+    def test_family_create_view(self):
+        response = self.client.get(reverse('student_profile:family_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/family_create_view.html")
+
+
+    def test_family_update_view(self):
+        response = self.client.get(self.family.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Married')
+        self.assertTemplateUsed(response, "profile/family_update_view.html")
 
 
     def test_parent(self):
