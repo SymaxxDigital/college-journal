@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Families list
+{% endblock title %}
+
+{% block content %}
+
+<ul>
+    {% for essay in personalessays %}
+
+        <a href="{{essay.get_absolute_url}}">
+            <li>{{essay.user}} - {{family.consent}}</li>
+        </a>
+        
+    
+    {% endfor %}
+</ul>
+
+{% endblock content %}
