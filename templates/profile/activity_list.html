@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Activity list
+{% endblock title %}
+
+{% block content %}
+
+<ul>
+    {% for activity in activities %}
+
+        <a href="{{activity.get_absolute_url}}">
+            <li>{{activity.user.first_name}}</li> {{activity.user.last_name}}</li>
+        </a>
+        
+    
+    {% endfor %}
+</ul>
+
+{% endblock content %}
