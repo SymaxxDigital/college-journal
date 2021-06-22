@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Families list
+{% endblock title %}
+
+{% block content %}
+
+<ul>
+    {% for family in families %}
+
+        <a href="{{family.get_absolute_url}}">
+            <li>{{family.user}} - {{family.school_name}}</li>
+        </a>
+        
+    
+    {% endfor %}
+</ul>
+
+{% endblock content %}
