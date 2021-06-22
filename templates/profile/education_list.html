@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Education list
+{% endblock title %}
+
+{% block content %}
+
+<ul>
+    {% for education in educations %}
+
+        <a href="{{education.get_absolute_url}}">
+            <li>{{education.user}} - {{education.school_name}}</li>
+        </a>
+        
+    
+    {% endfor %}
+</ul>
+
+{% endblock content %}
