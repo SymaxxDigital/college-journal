@@ -92,6 +92,11 @@ class ProfileUpdateView(UpdateView):
             return super.form_valid(form)
 
 
+class DemographicListView(ListView):
+    model = Demographic
+    template_name = "profile/demographic_list.html"
+    context_object_name = "demographics"
+
 
 class DemographicCreateView(CreateView):
     """This will be used to create student demographics"""
@@ -166,6 +171,11 @@ class DemographicUpdateView(UpdateView):
             return super.form_valid(form)
 
 
+class FamilyListView(ListView):
+    model = Family
+    template_name = "profile/family_list.html"
+    context_object_name = "families"
+
 
 class FamilyCreateView(CreateView):
     """This will create the family of the student"""
@@ -238,6 +248,11 @@ class FamilyUpdateView(UpdateView):
         else:
             return super.form_valid(form)
 
+
+class EducationListView(ListView):
+    model = Education
+    template_name = "profile/education_list.html"
+    context_object_name = "educations"
 
 
 class EducationCreateView(CreateView):
@@ -312,6 +327,12 @@ class EducationUpdateView(UpdateView):
             return super.form_valid(form)
 
 
+class ActivityListView(ListView):
+    model = ActivityCheck
+    template_name = "profile/activity_list.html"
+    context_object_name = "activities"
+
+
 class ActivityCreateView(CreateView):
     """This will create the Education profile of the student"""
     model = ActivityCheck
@@ -372,6 +393,12 @@ class ActivityUpdateView(UpdateView):
             return response
         else:
             return super.form_valid(form)
+
+
+class PersonalessayListView(ListView):
+    model = PersonalEssay
+    template_name = "profile/personal_essay_list.html"
+    context_object_name = "personalessays"
 
 
 
