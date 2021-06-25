@@ -174,6 +174,7 @@ class PersonalInformationTests(TestCase):
             circumstance = "This text can be here",
         )
 
+
     def test_profile_information(self):
         self.assertEqual(f"{self.profile.user}", "studentuser")
         self.assertEqual(f"{self.profile.first_name}", "Maxx")
@@ -219,6 +220,13 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.address.country}", "South Africa")
 
 
+    def test_demographics_list_view(self):
+        response = self.client.get(reverse("student_profile:demographics"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Christianity")
+        self.assertTemplateUsed(response, "profile/demographic_list.html")
+
+
     def test_demographics(self):
         self.assertEqual(f"{self.demographics.user}", "studentuser")
         self.assertEqual(f"{self.demographics.religion}", "Christianity")
@@ -248,6 +256,13 @@ class PersonalInformationTests(TestCase):
     def test_citizenship(self):
         self.assertEqual(f"{self.citizenship.related_field}", "Christianity")
         self.assertEqual(f"{self.citizenship.name}", "South African")
+
+
+    def test_family_list_view(self):
+        response = self.client.get(reverse("student_profile:family"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "studentuser")
+        self.assertTemplateUsed(response, "profile/family_list.html")
 
 
     def test_family(self):
@@ -309,6 +324,13 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.education.description}", "This text has to be here")
 
 
+    def test_education_list_view(self):
+        response = self.client.get(reverse("student_profile:education"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Premier")
+        self.assertTemplateUsed(response, "profile/education_list.html")
+
+
     def test_education_create_view(self):
         response = self.client.get(reverse('student_profile:education_create'))
         self.assertEqual(response.status_code, 200)
@@ -336,6 +358,12 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.futureplan.highest_degree}", "Masters")
         self.assertEqual(f"{self.futureplan.notes}", "This text has to be here")
         
+
+    def test_activity_list_view(self):
+        response = self.client.get(reverse("student_profile:activities"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/activity_list.html")
+
 
     def test_activity_check(self):
         self.assertEqual(f"{self.activitycheck.user}", "studentuser")
@@ -371,6 +399,12 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.personalessay.user}", "studentuser")
         self.assertEqual(f"{self.personalessay.consent}", "True")
         self.assertEqual(f"{self.personalessay.essay}", "Personal Essay is supposed to be here")
+
+
+    def test_personal_essay_list_view(self):
+        response = self.client.get(reverse("student_profile:personalessays"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "profile/personal_essay_list.html")
 
 
     def test_personal_essay_create_view(self):
