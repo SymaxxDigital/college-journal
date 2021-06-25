@@ -1,4 +1,4 @@
-from .models import PersonalInformation, Demographic, Family, Education, ActivityCheck, PersonalEssay
+from .models import PersonalInformation, Demographic, Family, Education, PersonalEssay
 from django.views.generic import ListView, CreateView, UpdateView
 from django.urls import reverse_lazy
 from .forms import (
@@ -10,9 +10,9 @@ from .forms import (
     SiblingFormSet,
     SchoolFormSet,
     FuturePlanFormSet,
-    ActivityFormSet,
     DisciplinaryHistoryFormSet,
     AdditionalInformationFormSet,
+    EducationFormSet,
 )
 
 
@@ -269,9 +269,12 @@ class EducationCreateView(CreateView):
         if self.request.POST:
             context["school_formset"] = SchoolFormSet(self.request.POST)
             context["futureplan_formset"] = FuturePlanFormSet(self.request.POST)
+            context["activity_formset"] = FuturePlanFormSet(self.request.POST)
         else:
             context["school_formset"] = ParentFormSet()
             context["futureplan_formset"] = SiblingFormSet()
+            context["activity_formset"] = EducationFormSet()
+
         return context
 
 
@@ -279,13 +282,16 @@ class EducationCreateView(CreateView):
         context = self.get_context_data(form=form)
         formset1 = context["school_formset"]
         formset2 = context["futureplan_formset"]
+        formset3 = context["EducationFormSet"]
 
-        if formset1.is_valid() and formset2.is_valid():
+        if formset1.is_valid() and formset2.is_valid() and formset3.is_valid():
             response = super().form_valid(form)
             formset1.instance = self.object
             formset2.instance = self.object
+            formset3.instance = self.object
             formset1.save()
             formset2.save()
+            formset3.save()
             return response
         else:
             return super.form_valid(form)
@@ -305,9 +311,13 @@ class EducationUpdateView(UpdateView):
         if self.request.POST:
             context["school_formset"] = SchoolFormSet(self.request.POST, instance=self.object)
             context["futureplan_formset"] = FuturePlanFormSet(self.request.POST, instance=self.object)
+            context["activity_formset"] = FuturePlanFormSet(self.request.POST, instance=self.object)
+
         else:
             context["school_formset"] = SchoolFormSet(instance=self.object)
             context["futureplan_formset"] = FuturePlanFormSet(instance=self.object)
+            context["activity_formset"] = EducationFormSet()
+
         return context
 
 
@@ -315,26 +325,30 @@ class EducationUpdateView(UpdateView):
         context = self.get_context_data(form=form)
         formset1 = context["school_formset"]
         formset2 = context["futureplan_formset"]
+        formset3 = context["activity_formset"]
 
-        if formset1.is_valid() and formset2.is_valid():
+        if formset1.is_valid() and formset2.is_valid() and formset3.is_valid():
             response = super().form_valid(form)
             formset1.instance = self.object
             formset2.instance = self.object
+            formset3.instance = self.object
             formset1.save()
             formset2.save()
+            formset3.save()
             return response
         else:
             return super.form_valid(form)
 
 
+"""
 class ActivityListView(ListView):
-    model = ActivityCheck
+    model = Activity
     template_name = "profile/activity_list.html"
     context_object_name = "activities"
 
 
 class ActivityCreateView(CreateView):
-    """This will create the Education profile of the student"""
+    This will create the Education profile of the student
     model = ActivityCheck
     template_name = "profile/activity_create.html"
     success_url = reverse_lazy("student_profile:profile")
@@ -365,7 +379,9 @@ class ActivityCreateView(CreateView):
 
 
 class ActivityUpdateView(UpdateView):
-    """This will create the family of the student"""
+
+    This will create the family of the student
+
     model = ActivityCheck
     template_name = "profile/activity_update.html"
     success_url = reverse_lazy("student_profile:profile")
@@ -394,6 +410,7 @@ class ActivityUpdateView(UpdateView):
         else:
             return super.form_valid(form)
 
+"""
 
 class PersonalessayListView(ListView):
     model = PersonalEssay
