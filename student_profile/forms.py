@@ -1,5 +1,14 @@
 from django.forms.models import inlineformset_factory
 from . models import *
+from django import forms
+
+
+class ActivityForm(forms.ModelForm):
+   class Meta:
+        model = Activity
+        fields = "__all__" #("activity_interest", "activity_type", "position", "organization", "accomplishment", "intension", "hours_per_week", "weeks_per_year", "participation_time",)
+
+
 
 
 """Personal Information"""
@@ -31,16 +40,16 @@ SchoolFormSet = inlineformset_factory(Education, School, fields=[
 FuturePlanFormSet = inlineformset_factory(Education, FuturePlan, fields=[
                                           "related_school", "career_interest", "highest_degree", "notes"], exclude=[], extra=1, can_delete=True)
 
+EducationFormSet = inlineformset_factory(Education, Activity, fields=["education", "activity_interest", "activity_type", "position", "organization", "accomplishment", "intension", "hours_per_week", "weeks_per_year", "participation_time"], exclude=[], extra=1, can_delete=True)
+
 
 """Activity"""
 
-ActivityFormSet = inlineformset_factory(ActivityCheck, Activity, fields=["related_field", "activity_type", "position", "organization",
-                                        "accomplishment", "intension", "hours_per_week", "weeks_per_year", "participation_time"], exclude=[], extra=1, can_delete=True)
-
+ActivityFormset = forms.formset_factory(ActivityForm, extra=1, can_delete=False)
 
 """Writing"""
 
 DisciplinaryHistoryFormSet = inlineformset_factory(PersonalEssay, DisciplinaryHistory,  fields=[
-                                                   "related_field", "disciplinary"], exclude=[], extra=1, can_delete=False)
+                                                   "related_field", "disciplinary"], extra=1, can_delete=False)
 AdditionalInformationFormSet = inlineformset_factory(PersonalEssay, AdditionalInformation, fields=[
                                                      "related_field", "any_disruptions", "disruption", "any_curcumstance", "circumstance"], exclude=[], extra=1, can_delete=True)
