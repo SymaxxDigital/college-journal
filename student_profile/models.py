@@ -42,7 +42,7 @@ class ContactDetail(models.Model):
         ("Mobile", "Mobile"),
     )
 
-    related_field = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, null=True, blank=True)
+    related_field = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, related_name="contacts", null=True, blank=True)
     phone_option = models.CharField(max_length=20 ,choices=PHONE, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
 
@@ -51,7 +51,7 @@ class ContactDetail(models.Model):
 
 
 class Address(models.Model):
-    related_field = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, null=True, blank=True)
+    related_field = models.ForeignKey(PersonalInformation, on_delete=models.CASCADE, related_name="addresses", null=True, blank=True)
     address = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
     postal_code = models.CharField(max_length=10, blank=True, null=True)
@@ -107,7 +107,7 @@ class Language(models.Model):
         ("Spoken at home", "Spoken at home"),
     )
 
-    related_field = models.ForeignKey("Demographic", on_delete=models.CASCADE, null=True, blank=True)
+    related_field = models.ForeignKey("Demographic", on_delete=models.CASCADE, related_name="demographics", null=True, blank=True)
     language = models.CharField(
         max_length=20, choices=LANGUAGES, blank=True, null=True)
     language_proficiency = models.CharField(max_length=50, blank=True, null=True, choices=PROFICIENCY)
@@ -118,7 +118,7 @@ class Language(models.Model):
 class Citizenship(models.Model):
     """ Student Citizenship """
 
-    related_field = models.ForeignKey(Demographic, on_delete=models.CASCADE, null=True, blank=True)
+    related_field = models.ForeignKey(Demographic, on_delete=models.CASCADE, related_name="citizenship", null=True, blank=True)
     name = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
@@ -183,7 +183,7 @@ class Parent(models.Model):
         ("Other", "Other"),
     )
     
-    related_parent = models.ForeignKey(Family, on_delete=models.CASCADE, null=True, blank=True)
+    related_parent = models.ForeignKey(Family, on_delete=models.CASCADE, related_name="parents", null=True, blank=True)
     parent_type = models.CharField(
         max_length=100, blank=True, null=True, choices=PARENT)
     parent_status = models.BooleanField(verbose_name="Is parent living?")
@@ -210,7 +210,7 @@ class Sibling(models.Model):
         ("Sister", "Sister"),
     )
 
-    related_parent = models.ForeignKey(Family, on_delete=models.CASCADE, null=True, blank=True)
+    related_parent = models.ForeignKey(Family, on_delete=models.CASCADE, related_name="siblings", null=True, blank=True)
     first_name = models.CharField(max_length=50, blank=True, null=True)
     middle_name = models.CharField(max_length=50, blank=True, null=True)
     last_name = models.CharField(max_length=50, blank=True, null=True)
@@ -222,7 +222,7 @@ class Sibling(models.Model):
         return f"{self.first_name}"[0]
 
 
-"""=======================================Education======================================"""
+"""=======================================Education & Activities ======================================"""
 
 
 class Education(models.Model):
@@ -247,15 +247,18 @@ class Education(models.Model):
         return reverse('student_profile:education_update', kwargs={'pk': str(self.pk)})
 
 class School(models.Model):
-    related_school = models.ForeignKey(Education, on_delete=models.CASCADE)
+    related_school = models.ForeignKey(Education, on_delete=models.CASCADE, related_name="schools")
     school_name = models.CharField(max_length=200, blank=True, null=True)
     date_started = models.DateField()
     date_finished = models.DateField()
     description = models.TextField(max_length=250, blank=True, null=True)
 
+    class Meta:
+        verbose_name_plural = "Other Schools"
+
 
 class FuturePlan(models.Model):
-    related_school = models.ForeignKey(Education, on_delete=models.CASCADE)
+    related_school = models.ForeignKey(Education, on_delete=models.CASCADE, related_name="futureplan")
     career_interest = models.CharField(max_length=50, blank=True, null=True)
     highest_degree = models.CharField(max_length=50, blank=True, null=True)
     notes = models.TextField(max_length=350, blank=True, null=True)
@@ -263,19 +266,6 @@ class FuturePlan(models.Model):
     def __str__(self):
         return self.career_interest
 
-
-"""=======================================Activity======================================"""
-
-class ActivityCheck(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    activity_interest = models.BooleanField(default=True, blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.activity_interest}"
-
-    def get_absolute_url(self): # new
-        return reverse('student_profile:activity_update', kwargs={'pk': str(self.pk)})
 
 class Activity(models.Model):
     ACTIVITIES = (
@@ -288,7 +278,9 @@ class Activity(models.Model):
         ('During school break', 'During school break'),
         ('All year', 'All year'),
     )
-    related_field = models.ForeignKey(ActivityCheck, on_delete=models.CASCADE, null=True, blank=True)
+
+    education = models.ForeignKey(Education, on_delete=models.CASCADE, null=True, blank=True, related_name="activity")
+    activity_interest = models.BooleanField(default=True, blank=True, null=True)
     activity_type = models.CharField(max_length=200, blank=True, null=True, choices=ACTIVITIES)
     position = models.CharField(max_length=50, blank=True, null=True)
     organization = models.CharField(max_length=150, blank=True, null=True, verbose_name="Oraganization Name")
@@ -300,6 +292,10 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.activity_type
+    
+    class Meta:
+        verbose_name_plural = "Activities"
+
 
 
 """=======================================Writing======================================"""
