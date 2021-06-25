@@ -12,12 +12,10 @@ from .models import (
     Education,
     School,
     FuturePlan,
-    ActivityCheck,
     Activity,
     DisciplinaryHistory,
     PersonalEssay,
     AdditionalInformation,
-    
 )
 
 
@@ -114,6 +112,12 @@ class SchoolInline(admin.StackedInline):
     max_num = 5
 
 
+class ActivityInline(admin.StackedInline):
+    model = Activity
+    extra = 0
+    max_num = 5
+
+
 class FuturePlanInline(admin.StackedInline):
     model = FuturePlan
     extra = 0
@@ -124,6 +128,7 @@ class EducationAdmin(admin.ModelAdmin):
     inlines = [
         SchoolInline,
         FuturePlanInline,
+        ActivityInline,
 
     ]
 
@@ -138,26 +143,6 @@ class EducationAdmin(admin.ModelAdmin):
     )
 
 admin.site.register(Education, EducationAdmin)
-
-
-class ActivityInline(admin.StackedInline):
-    model = Activity
-    extra = 1
-    max_num = 6
-
-
-class ActivityCheckAdmin(admin.ModelAdmin):
-    inlines = [
-
-        ActivityInline,
-    ]
-
-    list_display = (
-        'activity_interest', 
-       
-    )
-
-admin.site.register(ActivityCheck, ActivityCheckAdmin)
 
 
 class DisciplinaryHistoryInline(admin.StackedInline):
