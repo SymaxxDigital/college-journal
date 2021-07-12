@@ -7,4 +7,5 @@ class User(AbstractUser):
     is_transfare_student = models.BooleanField(default=False)
     is_education_proffessional = models.BooleanField(default=False)
     is_parent_or_adult = models.BooleanField(default=False)
+    is_college = models.BooleanField(default=False)
     
