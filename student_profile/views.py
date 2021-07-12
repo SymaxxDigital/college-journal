@@ -1,5 +1,5 @@
 from .models import PersonalInformation, Demographic, Family, Education, PersonalEssay
-from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic import ListView, CreateView, UpdateView, TemplateView
 from django.urls import reverse_lazy
 from .forms import (
     ContactDetailFormSet, 
@@ -14,6 +14,10 @@ from .forms import (
     AdditionalInformationFormSet,
     EducationFormSet,
 )
+
+class ProfileLinkView(TemplateView):
+    """This will demo all the links for the create and Update  Views"""
+    template_name = 'profile/profile_links.html'
 
 
 class ProfileView(ListView):
@@ -269,10 +273,10 @@ class EducationCreateView(CreateView):
         if self.request.POST:
             context["school_formset"] = SchoolFormSet(self.request.POST)
             context["futureplan_formset"] = FuturePlanFormSet(self.request.POST)
-            context["activity_formset"] = FuturePlanFormSet(self.request.POST)
+            context["activity_formset"] = EducationFormSet(self.request.POST)
         else:
-            context["school_formset"] = ParentFormSet()
-            context["futureplan_formset"] = SiblingFormSet()
+            context["school_formset"] = SchoolFormSet()
+            context["futureplan_formset"] = FuturePlanFormSet()
             context["activity_formset"] = EducationFormSet()
 
         return context
@@ -282,7 +286,7 @@ class EducationCreateView(CreateView):
         context = self.get_context_data(form=form)
         formset1 = context["school_formset"]
         formset2 = context["futureplan_formset"]
-        formset3 = context["EducationFormSet"]
+        formset3 = context["activity_formset"]
 
         if formset1.is_valid() and formset2.is_valid() and formset3.is_valid():
             response = super().form_valid(form)
@@ -340,83 +344,10 @@ class EducationUpdateView(UpdateView):
             return super.form_valid(form)
 
 
-"""
-class ActivityListView(ListView):
-    model = Activity
-    template_name = "profile/activity_list.html"
-    context_object_name = "activities"
-
-
-class ActivityCreateView(CreateView):
-    This will create the Education profile of the student
-    model = ActivityCheck
-    template_name = "profile/activity_create.html"
-    success_url = reverse_lazy("student_profile:profile")
-    fields = "__all__"
-
-
-    def get_context_data(self, **kwargs):
-        context = super(ActivityCreateView, self).get_context_data(**kwargs)
-
-        if self.request.POST:
-            context["activity_formset"] = ActivityFormSet(self.request.POST)
-        else:
-            context["activity_formset"] = ActivityFormSet()
-        return context
-
-
-    def form_valid(self, form):
-        context = self.get_context_data(form=form)
-        formset = context["activity_formset"]
-
-        if formset.is_valid():
-            response = super().form_valid(form)
-            formset.instance = self.object
-            formset.save()
-            return response
-        else:
-            return super.form_valid(form)
-
-
-class ActivityUpdateView(UpdateView):
-
-    This will create the family of the student
-
-    model = ActivityCheck
-    template_name = "profile/activity_update.html"
-    success_url = reverse_lazy("student_profile:profile")
-    fields = "__all__"
-
-
-    def get_context_data(self, **kwargs):
-        context = super(ActivityUpdateView, self).get_context_data(**kwargs)
-
-        if self.request.POST:
-            context["activity_formset"] = ActivityFormSet(self.request.POST, instance=self.object)
-        else:
-            context["activity_formset"] = ActivityFormSet(instance=self.object)
-        return context
-
-
-    def form_valid(self, form):
-        context = self.get_context_data(form=form)
-        formset = context["activity_formset"]
-
-        if formset.is_valid():
-            response = super().form_valid(form)
-            formset.instance = self.object
-            formset.save()
-            return response
-        else:
-            return super.form_valid(form)
-
-"""
-
 class PersonalessayListView(ListView):
     model = PersonalEssay
     template_name = "profile/personal_essay_list.html"
     context_object_name = "personalessays"
-
 
 
 class PersonalEssayCreateView(CreateView):
