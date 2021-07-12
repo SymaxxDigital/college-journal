@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #Local
     'users.apps.UsersConfig',
     'student_profile.apps.StudentProfileConfig',
+    'college.apps.CollegeConfig',
     
 ]
 
