@@ -10,7 +10,7 @@ Activity list
     {% for activity in activities %}
 
         <a href="{{activity.get_absolute_url}}">
-            <li>{{activity.user.first_name}}</li> {{activity.user.last_name}}</li>
+            <li>Activity for : {{activity.user.first_name}}</li> {{activity.user.last_name}}</li>
         </a>
         
     
