@@ -15,6 +15,7 @@ from .views import (
     PersonalessayListView,
     PersonalEssayCreateView,
     PersonalEssayUpdateView,
+    ProfileLinkView,
 
 
 )
@@ -37,4 +38,5 @@ urlpatterns = [
     path("essays/", PersonalessayListView.as_view(), name="personalessays"),
     path("personal-essay/add", PersonalEssayCreateView.as_view(), name="personal_essay_create"),
     path("personal-essay/edit/<uuid:pk>", PersonalEssayUpdateView.as_view(), name="personal_essay_update"),
+    path("links/", ProfileLinkView.as_view(), name="profile_links")
 ]
