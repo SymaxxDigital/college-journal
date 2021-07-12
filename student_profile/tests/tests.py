@@ -15,7 +15,6 @@ from student_profile.models import (
     Education,
     School,
     FuturePlan,
-    ActivityCheck,
     Activity,
     PersonalEssay,
     DisciplinaryHistory,
@@ -138,13 +137,8 @@ class PersonalInformationTests(TestCase):
             notes = "This text has to be here",
         )
 
-        self.activitycheck = ActivityCheck.objects.create(
-            user = self.user,
-            activity_interest = True,
-        )
-
         self.activity = Activity.objects.create(
-            related_field = self.activitycheck,
+            education = self.education,
             activity_type = "Art",
             position = "Leader",
             organization = "WHO",
@@ -357,34 +351,10 @@ class PersonalInformationTests(TestCase):
         self.assertEqual(f"{self.futureplan.career_interest}", "Coding")
         self.assertEqual(f"{self.futureplan.highest_degree}", "Masters")
         self.assertEqual(f"{self.futureplan.notes}", "This text has to be here")
-        
-
-    def test_activity_list_view(self):
-        response = self.client.get(reverse("student_profile:activities"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "profile/activity_list.html")
-
-
-    def test_activity_check(self):
-        self.assertEqual(f"{self.activitycheck.user}", "studentuser")
-        self.assertEqual(f"{self.activitycheck.activity_interest}", "True")
-
-
-    def test_activity_create_view(self):
-        response = self.client.get(reverse('student_profile:activity_create'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "profile/activity_create.html")
-
-
-    def test_activity_update_view(self):
-        response = self.client.get(self.activitycheck.get_absolute_url())
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'studentuser')
-        self.assertTemplateUsed(response, "profile/activity_update.html")
 
 
     def test_activity(self):
-        self.assertEqual(f"{self.activity.related_field}", "True")
+        self.assertEqual(f"{self.activity.education}", "Premier")
         self.assertEqual(f"{self.activity.activity_type}", "Art")
         self.assertEqual(f"{self.activity.position}", "Leader")
         self.assertEqual(f"{self.activity.organization}", "WHO")
